@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {map, Observable} from "rxjs";
-import {Payment, PaymentSearchCriteria} from "./model";
+import {Payment, PaymentCreateRequest, PaymentSearchCriteria, PaymentUpdateRequest} from "./model";
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +26,7 @@ export class PaymentService {
       }));
   }
 
-  getPayment(paymentId: string): Observable<Payment> {
+  getPaymentById(paymentId: string): Observable<Payment> {
     return this.httpClient.get<Payment>(`${this.API_URL}/payments/${paymentId}`);
   }
 
@@ -34,5 +34,13 @@ export class PaymentService {
     const formData = new FormData();
     formData.append('file', file);
     return this.httpClient.post(`${this.API_URL}/payments/${paymentId}/evidence`, formData);
+  }
+
+  createPayment(payment: PaymentCreateRequest): Observable<Payment> {
+    return this.httpClient.post<Payment>(`${this.API_URL}/payments/`, payment);
+  };
+
+  updatePayment(paymentId: string, payment: PaymentUpdateRequest): Observable<Payment> {
+    return this.httpClient.put<Payment>(`${this.API_URL}/payments/${paymentId}`, payment);
   }
 }

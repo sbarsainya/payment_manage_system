@@ -3,6 +3,7 @@ import {PaymentService} from "../payment.service";
 import {Payment, PaymentStatusEnum} from "../model";
 import {ActivatedRoute, Router} from "@angular/router";
 import {CommonService} from "../common.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-payment-details',
@@ -16,12 +17,13 @@ export class PaymentDetailsComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private paymentService: PaymentService,
               private router: Router,
-              private commonService: CommonService) { }
+              private commonService: CommonService,
+              private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     const paymentId = this.route.snapshot.paramMap.get('id');
     if (paymentId) {
-      this.paymentService.getPayment(paymentId).subscribe(payment => {
+      this.paymentService.getPaymentById(paymentId).subscribe(payment => {
         this.payment = payment;
       });
     }
@@ -38,11 +40,14 @@ export class PaymentDetailsComponent implements OnInit {
   uploadEvidence() {
     if (this.selectedFile) {
       this.paymentService.uploadEvidence(this.payment._id, this.selectedFile).subscribe(response => {
-        this.paymentService.getPayment(this.payment._id).subscribe(payment => {
+        this.paymentService.getPaymentById(this.payment._id).subscribe(payment => {
+          this.snackBar.open('Evidence uploaded successfully!', 'Close',
+            { duration: 5000, verticalPosition: 'top', horizontalPosition: 'right'})
           this.payment = payment;
         });
       }, error => {
-        console.error('File upload failed', error);
+        this.snackBar.open('Evidence uploaded failed!', 'Close',
+          { verticalPosition: 'top', horizontalPosition: 'right'})
       });
     }
   }

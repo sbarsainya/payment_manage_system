@@ -14,6 +14,27 @@ import {MatCardModule} from "@angular/material/card";
 import {MatDividerModule} from "@angular/material/divider";
 import { EditPaymentComponent } from './edit-payment/edit-payment.component';
 import { CreatePaymentComponent } from './create-payment/create-payment.component';
+import {MatFormFieldModule} from "@angular/material/form-field";
+import { ReactiveFormsModule } from '@angular/forms';
+import {MatInputModule} from "@angular/material/input";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatDateFormats, MAT_DATE_FORMATS, MatOptionModule} from '@angular/material/core';
+import { MatNativeDateModule } from '@angular/material/core';
+import {MatSelectModule} from "@angular/material/select";
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
+const CUSTOM_DATE_FORMATS: MatDateFormats = {
+  parse: {
+    dateInput: 'YYYY-MM-DD',
+  },
+  display: {
+    dateInput: 'YYYY-MM-DD',
+    monthYearLabel: 'YYYY MMM',
+    dateA11yLabel: 'YYYY-MM-DD',
+    monthYearA11yLabel: 'YYYY MMMM',
+  },
+};
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,11 +52,20 @@ import { CreatePaymentComponent } from './create-payment/create-payment.componen
     MatButtonModule,
     HttpClientModule,
     MatCardModule,
-    MatDividerModule
+    MatDividerModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatOptionModule,
+    MatSelectModule,
+    MatSnackBarModule
   ],
   providers: [
     provideClientHydration(),
     provideAnimationsAsync(),
+    { provide: MAT_DATE_FORMATS, useValue: CUSTOM_DATE_FORMATS },
   ],
   bootstrap: [AppComponent]
 })
