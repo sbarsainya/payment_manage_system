@@ -1,24 +1,18 @@
 from contextlib import asynccontextmanager
-from logging import info
 
+from beanie import init_beanie
 from fastapi import FastAPI
 from motor.motor_asyncio import AsyncIOMotorClient
 
-mongodb_client = None
+from app.models.payment import Payment
+
 
 @asynccontextmanager
 async def db_lifespan(app: FastAPI):
-    global mongodb_client
-    # Startup
-    mongodb_client = AsyncIOMotorClient("mongodb://localhost:27017/adcore")
-    mongodb_client = mongodb_client.get_default_database()
-    ping_response = await mongodb_client.command("ping")
-    if int(ping_response["ok"]) != 1:
-        raise Exception("Problem connecting to database cluster.")
-    else:
-        breakpoint()
-        info("Connected to database cluster.")
+    client = AsyncIOMotorClient("mongodb://localhost:27017/adcore")
+
+    await init_beanie(database=client.db_name, document_models=[Payment])
 
     yield
     # Shutdown
-    mongodb_client.close()
+    client.close()

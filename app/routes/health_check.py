@@ -1,12 +1,12 @@
 """This module defines a health check route."""
 
 from http import HTTPStatus
-from app.constants.common import Routes
+
 from app.routes import router
 
 
 @router.get(
-    path=Routes.HEALTH_CHECK_URI,
+    path="/ht",
     status_code=HTTPStatus.OK,
     description="Health check status of payment service",
     summary="Get health check status",
