@@ -8,7 +8,7 @@ import { PaymentListComponent } from './payment-list/payment-list.component';
 import { AppRoutingModule } from './app-routing.module';
 import {provideAnimationsAsync} from "@angular/platform-browser/animations/async";
 import {MatButtonModule} from "@angular/material/button";
-import {HttpClientModule} from "@angular/common/http";
+import {HttpClientModule, HTTP_INTERCEPTORS, provideHttpClient, withFetch} from "@angular/common/http";
 import { PaymentDetailsComponent } from './payment-details/payment-details.component';
 import {MatCardModule} from "@angular/material/card";
 import {MatDividerModule} from "@angular/material/divider";
@@ -22,6 +22,7 @@ import {MatDateFormats, MAT_DATE_FORMATS, MatOptionModule} from '@angular/materi
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatSelectModule} from "@angular/material/select";
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import {NgrokWarningInterceptor} from "./ngrok_warning_interceptor";
 
 const CUSTOM_DATE_FORMATS: MatDateFormats = {
   parse: {
@@ -65,7 +66,13 @@ const CUSTOM_DATE_FORMATS: MatDateFormats = {
   providers: [
     provideClientHydration(),
     provideAnimationsAsync(),
+    provideHttpClient(withFetch()),
     { provide: MAT_DATE_FORMATS, useValue: CUSTOM_DATE_FORMATS },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: NgrokWarningInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

@@ -8,7 +8,7 @@ import {Payment, PaymentCreateRequest, PaymentSearchCriteria, PaymentUpdateReque
 })
 export class PaymentService {
 
-  private readonly API_URL:string = 'http://localhost:8000';
+  private readonly API_URL:string = 'https://10c4-223-233-86-20.ngrok-free.app';
 
   constructor(private httpClient: HttpClient) { }
 

@@ -8,3 +8,6 @@ This application is build using FastAPI, MongoDb and Angular.
    1. navigate to `frontend` folder
    2. Run `npm install` to install deps
    3. Run `ng serve` to start the application.  
+
+
+``ngrok start  --config ~/.config/ngrok/ngrok.yml --all``
